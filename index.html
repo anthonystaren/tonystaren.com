@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Anthony Staren — M&A Advisor, AI Drug Discovery Researcher, Patent Holder. Building at the intersection of AI, science, and business.">
-<meta name="keywords" content="Anthony Staren, Tony Staren, AI drug discovery, bioavailability, patent, prodrug, L-THP, DHCB, M&A advisor, Profacio, StarenStudio">
+<meta name="description" content="Anthony Staren — M&A Advisor, AI Drug Discovery Researcher, Patent Holder, Founder & Entrepreneur. Building at the intersection of AI, science, and business.">
+<meta name="keywords" content="Anthony Staren, Tony Staren, AI drug discovery, bioavailability, patent, prodrug, L-THP, DHCB, M&A advisor, Profacio, StarenStudio, AppFirms, EY, Ernst Young, technology advisory, management consulting">
 <meta name="author" content="Anthony Staren">
 <meta property="og:title" content="Anthony Staren — AI + Science + Business">
 <meta property="og:description" content="M&A Advisor | AI Drug Discovery | Patent Holder | Entrepreneur">
@@ -34,7 +34,11 @@
     {"@type": "Organization", "name": "The Economist Intelligence Unit"},
     {"@type": "EducationalOrganization", "name": "University of Illinois"}
   ],
-  "knowsAbout": ["AI Drug Discovery", "Mergers and Acquisitions", "Bioavailability", "Prodrug Design", "L-THP", "DHCB"],
+  "knowsAbout": ["AI Drug Discovery", "Mergers and Acquisitions", "Bioavailability", "Prodrug Design", "L-THP", "DHCB", "Technology Advisory", "Management Consulting", "Mobile App Development"],
+  "founder": [
+    {"@type": "Organization", "name": "AppFirms"},
+    {"@type": "Organization", "name": "Profacio"}
+  ],
   "sameAs": [
     "https://linkedin.com/in/anthonystaren",
     "https://medium.com/@anthony.staren",
@@ -120,7 +124,7 @@ function Hero() {
         'M&A Advisor by day. AI drug discovery researcher by night. Two provisional patents. A wellness brand. A 3D printing studio. And an unreasonable belief that the best ideas live between disciplines.'
       ),
       e('div', {style:{display:'flex',gap:'12px',flexWrap:'wrap'}},
-        ['M&A Advisory','AI Drug Discovery','Patent Holder','Entrepreneur'].map(function(tag) {
+        ['M&A Advisory','AI Drug Discovery','Patent Holder','Founder (Exit)','Entrepreneur'].map(function(tag) {
           return e('span', {key:tag, style:{padding:'6px 16px',borderRadius:'20px',border:'1px solid rgba(59,130,246,0.3)',color:'#60a5fa',fontSize:'0.8rem',fontWeight:500}}, tag);
         })
       ),
@@ -148,8 +152,10 @@ function Card(props) {
 function WorkSection() {
   var cards = [
     {icon:'🤝',title:'M&A Advisory',description:'Advising founders and business owners on mergers, acquisitions, and strategic exits at B. Woods & Company. Previously at EY, Clarivate Analytics, and The Economist Intelligence Unit.',link:'https://linkedin.com/in/anthonystaren',linkText:'LinkedIn →'},
+    {icon:'💼',title:'EY — Technology Advisory',description:'Served in technology advisory and management consulting at Ernst & Young (EY), one of the Big Four. Delivered strategic consulting engagements across technology transformation, risk management, and enterprise performance improvement.',link:'https://www.ey.com',linkText:'ey.com →'},
     {icon:'🧬',title:'AI Drug Discovery',description:'Using artificial intelligence to design novel prodrug hybrid molecules that improve the bioavailability of natural therapeutic compounds. Focused on non-addictive alternatives to opioids for pain and anxiety.'},
     {icon:'📋',title:'Two Provisional Patents',description:'Filed patents on L-THP and DHCB prodrug platforms — compounds used in traditional Chinese medicine for 1,000+ years but limited by poor oral absorption (~5%). AI-designed conjugation solves this.',link:'#patents',linkText:'View patents →'},
+    {icon:'🚀',title:'AppFirms (Founded & Sold)',description:'Founded AppFirms, a marketplace platform connecting businesses with top-rated mobile app development firms. Built the platform from the ground up, scaled operations, and successfully exited through acquisition.',link:'https://www.linkedin.com/company/appfirms/',linkText:'LinkedIn →'},
     {icon:'🌿',title:'Profacio Wellness',description:'A wellness brand exploring novel natural product formulations. Bridging the gap between ancient herbal medicine and modern bioavailability science.',link:'https://profacio.com',linkText:'profacio.com →'}
   ];
   return e('section', {id:'work', style:{borderTop:'1px solid rgba(255,255,255,0.04)'}},
@@ -269,21 +275,41 @@ function VenturesSection() {
       e('h2', {style:{fontSize:'clamp(1.8rem,4vw,2.5rem)',fontWeight:900,marginBottom:'40px'}},
         e('span', {style:{color:'#10b981'}}, '// '), 'Ventures'
       ),
-      e('div', {style:{background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.15)',borderRadius:'16px',padding:'36px'}},
-        e('div', {style:{display:'flex',alignItems:'center',gap:'16px',marginBottom:'20px'}},
-          e('span', {style:{fontSize:'2.5rem'}}, '🌿'),
-          e('div', null,
-            e('h3', {style:{fontSize:'1.4rem',fontWeight:800,color:'#fff'}}, 'Profacio'),
-            e('p', {style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600}}, 'Natural Product Innovation')
+      e('div', {style:{display:'grid',gap:'24px'}},
+        e('div', {style:{background:'rgba(249,115,22,0.06)',border:'1px solid rgba(249,115,22,0.15)',borderRadius:'16px',padding:'36px'}},
+          e('div', {style:{display:'flex',alignItems:'center',gap:'16px',marginBottom:'20px'}},
+            e('span', {style:{fontSize:'2.5rem'}}, '🚀'),
+            e('div', null,
+              e('h3', {style:{fontSize:'1.4rem',fontWeight:800,color:'#fff'}}, 'AppFirms'),
+              e('div', {style:{display:'flex',gap:'8px',alignItems:'center'}},
+                e('p', {style:{color:'#f97316',fontSize:'0.85rem',fontWeight:600}}, 'Founded & Sold'),
+                e('span', {style:{padding:'2px 10px',borderRadius:'12px',background:'rgba(16,185,129,0.15)',color:'#10b981',fontSize:'0.7rem',fontWeight:700,textTransform:'uppercase',letterSpacing:'1px'}}, 'Exited')
+              )
+            )
+          ),
+          e('p', {style:{color:'#8892b0',fontSize:'1rem',lineHeight:1.7,marginBottom:'20px',maxWidth:'700px'}},
+            'Founded AppFirms, a marketplace platform that connected businesses with top-rated mobile app development firms. Built the business from concept to revenue, scaled the platform to serve clients nationwide, and successfully exited through acquisition. The experience of building, scaling, and selling a technology company now directly informs M&A advisory work — understanding both sides of the deal table.'
+          ),
+          e('div', {style:{display:'flex',gap:'16px',flexWrap:'wrap'}},
+            e('a', {href:'https://www.linkedin.com/company/appfirms/', target:'_blank', style:{color:'#f97316',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'LinkedIn →')
           )
         ),
-        e('p', {style:{color:'#8892b0',fontSize:'1rem',lineHeight:1.7,marginBottom:'20px',maxWidth:'700px'}},
-          'Profacio is a wellness brand exploring novel natural product formulations at the intersection of traditional herbal medicine and modern bioavailability science. Built on the same research that drives the patent portfolio above.'
-        ),
-        e('div', {style:{display:'flex',gap:'16px',flexWrap:'wrap'}},
-          e('a', {href:'https://profacio.com', target:'_blank', style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'profacio.com →'),
-          e('a', {href:'https://www.instagram.com/profaciowellness/', target:'_blank', style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'Instagram →'),
-          e('a', {href:'https://www.tiktok.com/tag/profacio', target:'_blank', style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'TikTok →')
+        e('div', {style:{background:'rgba(16,185,129,0.06)',border:'1px solid rgba(16,185,129,0.15)',borderRadius:'16px',padding:'36px'}},
+          e('div', {style:{display:'flex',alignItems:'center',gap:'16px',marginBottom:'20px'}},
+            e('span', {style:{fontSize:'2.5rem'}}, '🌿'),
+            e('div', null,
+              e('h3', {style:{fontSize:'1.4rem',fontWeight:800,color:'#fff'}}, 'Profacio'),
+              e('p', {style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600}}, 'Natural Product Innovation')
+            )
+          ),
+          e('p', {style:{color:'#8892b0',fontSize:'1rem',lineHeight:1.7,marginBottom:'20px',maxWidth:'700px'}},
+            'Profacio is a wellness brand exploring novel natural product formulations at the intersection of traditional herbal medicine and modern bioavailability science. Built on the same research that drives the patent portfolio above.'
+          ),
+          e('div', {style:{display:'flex',gap:'16px',flexWrap:'wrap'}},
+            e('a', {href:'https://profacio.com', target:'_blank', style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'profacio.com →'),
+            e('a', {href:'https://www.instagram.com/profaciowellness/', target:'_blank', style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'Instagram →'),
+            e('a', {href:'https://www.tiktok.com/tag/profacio', target:'_blank', style:{color:'#10b981',fontSize:'0.85rem',fontWeight:600,textDecoration:'none'}}, 'TikTok →')
+          )
         )
       )
     )
@@ -371,8 +397,11 @@ function TonyBot() {
     if (/ai|artificial intelligence|machine learn|drug discover/i.test(q)) {
       return "Anthony uses AI to tackle a specific problem: natural therapeutic compounds that have been used for centuries but have terrible oral bioavailability. His approach uses AI molecular modeling to design prodrug conjugates — essentially redesigning the molecule so the body can actually absorb it. This work led to two provisional patents on L-THP and DHCB platforms.";
     }
-    if (/ey|ernst|deloitte|big four|advisory|consulting/i.test(q)) {
-      return "Anthony spent time at EY in their advisory practice, where he learned that trust is the product in professional services. He also worked at The Economist Intelligence Unit (global market analysis) and Clarivate Analytics (life sciences data & IP). Each role taught him something different about how deals get done — which he now applies to M&A advisory at B. Woods & Company.";
+    if (/appfirm|app firm|marketplace|mobile app|founded.*sold|exit/i.test(q)) {
+      return "Anthony founded AppFirms, a marketplace platform that connected businesses with top-rated mobile app development firms. He built the company from the ground up, scaled operations nationally, and successfully exited through acquisition. That firsthand experience of building and selling a tech company now gives him a unique edge in M&A advisory — he understands both sides of the deal table. Check out the Ventures section above or visit linkedin.com/company/appfirms for more!";
+    }
+    if (/ey|ernst|big four|advisory|consulting|management consult/i.test(q)) {
+      return "Anthony served in technology advisory and management consulting at Ernst & Young (EY), one of the Big Four professional services firms. At EY, he delivered strategic consulting engagements spanning technology transformation, risk management, and enterprise performance improvement. He learned that trust is the product in professional services. He also worked at The Economist Intelligence Unit (global market analysis) and Clarivate Analytics (life sciences data & IP). Each role taught him something different about how deals get done — which he now applies to M&A advisory at B. Woods & Company.";
     }
     if (/m&a|merger|acquisition|b\.? ?woods|deal/i.test(q)) {
       return "Anthony is currently an M&A Advisor at B. Woods & Company, helping founders and business owners navigate mergers, acquisitions, and strategic exits. His background spanning EY, the EIU, and Clarivate gives him a unique lens on valuation, strategy, and market opportunity. Connect with him on LinkedIn: linkedin.com/in/anthonystaren";
@@ -381,7 +410,7 @@ function TonyBot() {
       return "ClearMyName (clearmyname.co) is an AI-powered online reputation management tool Anthony is building. It helps professionals take control of what employers and clients see when they Google their name. The tool uses AI agents to generate positive, high-authority content that pushes down unwanted search results.";
     }
     if (/background|who|about|bio|career|education|illinois/i.test(q)) {
-      return "Anthony Staren (Tony) has a BA in Pre-Med/Economics from the University of Illinois. His career spans clinical cancer research (Loyola/CTCA), professional services (EY, Economist Intelligence Unit, Clarivate Analytics), and now M&A advisory at B. Woods & Company. On the side, he's an AI drug discovery researcher with two patents, runs Profacio wellness brand, and operates StarenStudio (3D printing on Etsy). He's based in Phoenix, AZ.";
+      return "Anthony Staren (Tony) has a BA in Pre-Med/Economics from the University of Illinois. His career spans clinical cancer research (Loyola/CTCA), technology advisory and management consulting at EY, professional services at the Economist Intelligence Unit and Clarivate Analytics, and now M&A advisory at B. Woods & Company. He also founded and sold AppFirms, a mobile app development marketplace. On the side, he's an AI drug discovery researcher with two patents, runs Profacio wellness brand, and operates StarenStudio (3D printing on Etsy). He's based in Phoenix, AZ.";
     }
     if (/contact|email|reach|connect|hire|talk/i.test(q)) {
       return "Best ways to reach Anthony: Email at anthony@tonystaren.com, connect on LinkedIn (linkedin.com/in/anthonystaren), or follow on Medium (@anthony.staren). For M&A inquiries, LinkedIn is the best route. For patent/research discussions, email works great.";
@@ -403,7 +432,7 @@ function TonyBot() {
     }, 600);
   }
 
-  var chips = ['Tell me about the patents','What is Profacio?','AI drug discovery','Career background','How to contact Anthony'];
+  var chips = ['Tell me about the patents','What is AppFirms?','EY consulting','AI drug discovery','Career background'];
 
   return e('section', {id:'chat', style:{borderTop:'1px solid rgba(255,255,255,0.04)'}},
     e('div', {className:'container'},
@@ -442,7 +471,7 @@ function TonyBot() {
 function Footer() {
   return e('footer', {style:{borderTop:'1px solid rgba(255,255,255,0.04)',padding:'48px 0'}},
     e('div', {className:'container', style:{textAlign:'center'}},
-      e('p', {style:{color:'#4a5568',fontSize:'0.85rem',marginBottom:'12px'}}, '© 2025 Anthony Staren. All rights reserved.'),
+      e('p', {style:{color:'#4a5568',fontSize:'0.85rem',marginBottom:'12px'}}, '© 2026 Anthony Staren. All rights reserved.'),
       e('div', {style:{display:'flex',justifyContent:'center',gap:'24px',flexWrap:'wrap'}},
         e('a', {href:'https://linkedin.com/in/anthonystaren', target:'_blank', style:{color:'#6b7280',fontSize:'0.8rem',textDecoration:'none'}}, 'LinkedIn'),
         e('a', {href:'https://medium.com/@anthony.staren', target:'_blank', style:{color:'#6b7280',fontSize:'0.8rem',textDecoration:'none'}}, 'Medium'),
