@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Anthony Staren (Tony) — AI drug discovery, bioavailability innovation, patent holder, entrepreneur. Building at the intersection of AI, science, and business.">
+<meta name="keywords" content="Anthony Staren, Tony Staren, AI drug discovery, patent, bioavailability, natural products, Profacio wellness, StarenStudio 3D printing">
+<meta name="author" content="Anthony Staren">
+<meta property="og:title" content="Anthony Staren (Tony) — AI + Science + Business">
+<meta property="og:description" content="Exploring AI drug discovery, novel bioavailability solutions, and entrepreneurial ventures at the intersection of science and technology.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tonystaren.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Anthony Staren (Tony) — AI + Science + Business">
+<meta name="twitter:description" content="AI drug discovery | Bioavailability Innovation | Patent Holder | Entrepreneur">
+<title>Anthony Staren (Tony) — AI Drug Discovery & Bioavailability Innovation</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#06090f;color:#e0e4ef;min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#0d1117}::-webkit-scrollbar-thumb{background:#2d3555;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#3d4565}
+input,textarea,select{outline:none;font-family:inherit}
+input:focus,textarea:focus,select:focus{border-color:rgba(59,130,246,0.5)!important}
+a{color:#60a5fa;text-decoration:none;transition:color 0.2s}
+a:hover{color:#93c5fd}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px rgba(59,130,246,0.2)}50%{box-shadow:0 0 16px rgba(59,130,246,0.4)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+.animate-in{animation:fadeIn 0.6s ease-out}
+.animate-slide{animation:slideIn 0.5s ease-out}
+.pulse{animation:pulse 2s ease-in-out infinite}
+.glow{animation:glow 2s ease-in-out infinite}
+.code{font-family:'JetBrains Mono',monospace;font-size:0.85em}
+.mono{font-family:'JetBrains Mono',monospace}
+h1,h2,h3,h4,h5,h6{font-weight:800;line-height:1.2}
+h1{font-size:clamp(2rem,8vw,3.5rem)}
+h2{font-size:clamp(1.5rem,5vw,2.2rem)}
+h3{font-size:clamp(1rem,3vw,1.5rem)}
+section{padding:clamp(3rem,8vw,6rem) 2rem}
+@media(max-width:768px){section{padding:2rem 1rem}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect,useRef,useCallback}=React;
+
+function App(){
+  const[activeSection,setActiveSection]=useState('home');
+  const[chatOpen,setChatOpen]=useState(false);
+  const[messages,setMessages]=useState([]);
+  const[chatInput,setChatInput]=useState('');
+  const[expandedPatent,setExpandedPatent]=useState(null);
+  const[expandedResearch,setExpandedResearch]=useState(null);
+
+  // Chat responses
+  const chatResponses={
+    'hello':' Hi! I\'m Anthony\'s chatbot. I can tell you about his patents, research, ventures, and more. What would you like to know?',
+    'patents':'Anthony holds two provisional patents: L-THP Hybrid Molecules (combining L-tetrahydropalmatine with cannabinoids for pain/anxiety) and DHCB Prodrug Platform (improving bioavailability of Dehydrocorybulbine from Corydalis yanhusuo). Both leverage AI to accelerate natural product drug discovery.',
+    'research':'At Loyola University and Cancer Treatment Centers of America, Anthony published two AACR 2010 papers on Resveratrol and EGCG as tumor proliferation modulators. This early work laid the foundation for his current patent research in prodrug design.',
+    'ai':'Anthony uses AI to identify which natural products have efficacy problems vs. delivery problems, then applies computational chemistry to design prodrug solutions. This AI-first approach dramatically accelerates discovery.',
+    'profacio':'Profacio Wellness is Anthony\'s DTC wellness brand. Visit profacio.com or follow @profaciowellness on Instagram and TikTok for natural health products.',
+    'etsy':'StarenStudio is on Etsy (etsy.com/shop/StarenStudio). Anthony creates 3D-printed custom designs and innovations.',
+    'medium':'Read Anthony\'s writing on Medium at medium.com/@anthony.staren covering AI, drug discovery, bioavailability, and entrepreneurship.',
+    'bioavailability':'Bioavailability is how much of a drug your body can actually use. Many natural compounds have strong pharmacology but terrible absorption. Anthony\'s prodrug platform solves this with smart chemical conjugates.',
+    'cbd':'One of Anthony\'s L-THP patents combines L-tetrahydropalmatine with CBD, CBG, CBN, and terpenes. The goal: non-addictive pain relief without opioid dependence.',
+    'corydalis':'Corydalis yanhusuo is used in Chinese medicine for 1000+ years. But it only has ~5% oral bioavailability! Anthony\'s DHCB prodrug platform makes the active compound (DHCB) actually get absorbed.',
+    'business':'Anthony has a background in biotech entrepreneurship. He\'s building ventures at the intersection of AI, natural products, and healthcare.',
+    'contact':'Reach out to Anthony on LinkedIn (/in/anthonystaren) or via Medium (@anthony.staren). You can also check out his projects on Instagram (@aztonystark) and Etsy (StarenStudio).',
+  };
+
+  const handleChatSubmit=(e)=>{
+    e.preventDefault();
+    if(!chatInput.trim())return;
+
+    const userMsg={type:'user',text:chatInput};
+    setMessages([...messages,userMsg]);
+
+    setTimeout(()=>{
+      let response='I can help with information about Anthony\'s patents, research, ventures, or other topics. Try asking about patents, research, AI, bioavailability, Profacio, StarenStudio, or medium.';
+      const lower=chatInput.toLowerCase();
+      Object.keys(chatResponses).forEach(key=>{
+        if(lower.includes(key)){response=chatResponses[key];return;}
+      });
+
+      setMessages(m=>[...m,{type:'bot',text:response}]);
+    },300);
+
+    setChatInput('');
+  };
+
+  const suggestionChips=[
+    'Tell me about patents',
+    'What\'s bioavailability?',
+    'Profacio?',
+    'Your research?',
+    'How does AI fit in?'
+  ];
+
+  // ===== STRUCTURED DATA =====
+  const schemaData={
+    '@context':'https://schema.org',
+    '@type':'Person',
+    'name':'Anthony Staren',
+    'alternateName':'Tony Staren',
+    'description':'AI drug discovery researcher, patent holder, and entrepreneur exploring bioavailability innovation and natural products',
+    'image':'https://tonystaren.com/avatar.jpg',
+    'jobTitle':['Researcher','Entrepreneur','Patent Holder'],
+    'url':'https://tonystaren.com',
+    'sameAs':[
+      'https://linkedin.com/in/anthonystaren',
+      'https://medium.com/@anthony.staren',
+      'https://instagram.com/aztonystark',
+      'https://instagram.com/profaciowellness',
+      'https://etsy.com/shop/StarenStudio',
+      'https://profacio.com'
+    ],
+    'location':{
+      '@type':'Place',
+      'address':'Tempe, Arizona'
+    },
+    'knowsAbout':[
+      'AI drug discovery',
+      'Bioavailability',
+      'Patent design',
+      'Natural products',
+      'Prodrug development',
+      'Cancer research',
+      'Entrepreneurship',
+      '3D printing'
+    ]
+  };
+
+  // ===== SECTIONS =====
+
+  // HERO
+  const Hero=()=>React.createElement('section',{id:'home',style:{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#06090f 0%,#0a0e1a 50%,#0d1225 100%)',position:'relative',overflow:'hidden'}},
+    // Background decoration
+    React.createElement('div',{style:{position:'absolute',inset:0,opacity:0.03}},
+      React.createElement('div',{style:{position:'absolute',width:'500px',height:'500px',background:'radial-gradient(circle,#3b82f6,transparent)',borderRadius:'50%',top:'-200px',left:'-100px'}}),
+      React.createElement('div',{style:{position:'absolute',width:'400px',height:'400px',background:'radial-gradient(circle,#8b5cf6,transparent)',borderRadius:'50%',bottom:'-150px',right:'-50px'}})
+    ),
+
+    React.createElement('div',{style:{maxWidth:900,margin:'0 auto',padding:'2rem',textAlign:'center',position:'relative',zIndex:1}},
+      React.createElement('div',{className:'animate-in',style:{marginBottom:'1rem'}},
+        React.createElement('span',{style:{fontSize:'clamp(2rem,10vw,4rem)',display:'block',marginBottom:'1rem'}},'🧬'),
+        React.createElement('h1',{style:{background:'linear-gradient(135deg,#60a5fa,#a78bfa,#f59e0b)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',marginBottom:'0.5rem'}},'Anthony Staren'),
+        React.createElement('h1',{style:{fontSize:'1.3em',color:'#94a3b8',fontWeight:500,marginBottom:'1.5rem'}},'(Tony)')
+      ),
+
+      React.createElement('p',{className:'animate-in',style:{fontSize:'clamp(1rem,2.5vw,1.3rem)',color:'#cbd5e1',maxWidth:700,margin:'0 auto 1.5rem',lineHeight:1.8,animationDelay:'0.1s'}},
+        'Exploring AI drug discovery, bioavailability innovation, and natural product therapeutics. Building ventures at the intersection of science, entrepreneurship, and technology.'
+      ),
+
+      React.createElement('div',{className:'animate-in',style:{display:'flex',gap:'1rem',justifyContent:'center',flexWrap:'wrap',marginBottom:'2.5rem',animationDelay:'0.2s'}},
+        ...[
+          {icon:'📚',url:'https://medium.com/@anthony.staren',label:'Medium'},
+          {icon:'💼',url:'https://linkedin.com/in/anthonystaren',label:'LinkedIn'},
+          {icon:'📸',url:'https://instagram.com/aztonystark',label:'Instagram'},
+          {icon:'🛍️',url:'https://etsy.com/shop/StarenStudio',label:'Etsy Store'}
+        ].map(link=>
+          React.createElement('a',{key:link.label,href:link.url,target:'_blank',rel:'noopener noreferrer',style:{display:'inline-flex',alignItems:'center',gap:'0.5rem',padding:'0.75rem 1.25rem',background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.3)',borderRadius:10,color:'#60a5fa',fontWeight:600,fontSize:'0.95rem',transition:'all 0.3s'}},
+            React.createElement('span',null,link.icon),
+            link.label
+          )
+        )
+      ),
+
+      React.createElement('div',{className:'animate-in',style:{fontSize:'0.9rem',color:'#64748b',animationDelay:'0.3s'}},
+        '↓ Scroll to explore my work ↓'
+      )
+    )
+  );
+
+  // WHAT I'M WORKING ON
+  const WorkingOn=()=>React.createElement('section',{id:'working-on',style:{background:'linear-gradient(180deg,#0a0e1a 0%,#0d1225 100%)'}},
+    React.createElement('div',{style:{maxWidth:1200,margin:'0 auto'}},
+      React.createElement('div',{style:{textAlign:'center',marginBottom:'3rem'}},
+        React.createElement('h2',{style:{color:'#60a5fa',marginBottom:'0.5rem'}},'What I\'m Working On'),
+        React.createElement('p',{style:{color:'#94a3b8',fontSize:'1.1rem'}},'Current projects and ventures shaping the future of healthcare')
+      ),
+
+      React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'1.5rem'}},
+        ...[
+          {title:'AI Drug Discovery',icon:'🤖',color:'#3b82f6',desc:'Using machine learning to identify and optimize natural product therapeutics',accents:'rgba(59,130,246,0.08)'},
+          {title:'Bioavailability Innovation',icon:'💊',color:'#8b5cf6',desc:'Designing prodrug platforms that dramatically improve compound absorption',accents:'rgba(139,92,246,0.08)'},
+          {title:'Profacio Wellness',icon:'🌿',color:'#10b981',desc:'DTC wellness brand bringing optimized natural compounds to consumers',accents:'rgba(16,185,129,0.08)'},
+          {title:'StarenStudio 3D Printing',icon:'🖨️',color:'#f59e0b',desc:'Creating custom 3D-printed designs and innovative physical products',accents:'rgba(245,158,11,0.08)'}
+        ].map(item=>
+          React.createElement('div',{key:item.title,className:'animate-in',style:{background:item.accents,border:`1px solid ${item.color}20`,borderRadius:14,padding:'2rem',textAlign:'center',transition:'all 0.3s',cursor:'pointer'},
+            onMouseOver:e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.borderColor=`${item.color}40`},
+            onMouseOut:e=>{e.currentTarget.style.transform='none';e.currentTarget.style.borderColor=`${item.color}20`}
+          ),
+            React.createElement('div',{style:{fontSize:'2.5rem',marginBottom:'0.75rem'}},item.icon),
+            React.createElement('h3',{style:{color:item.color,marginBottom:'0.75rem'}},item.title),
+            React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.6,fontSize:'0.95rem'}},item.desc)
+          )
+        )
+      )
+    )
+  );
+
+  // CLINICAL RESEARCH
+  const Research=()=>React.createElement('section',{id:'research',style:{background:'linear-gradient(180deg,#0d1225 0%,#06090f 100%)'}},
+    React.createElement('div',{style:{maxWidth:1000,margin:'0 auto'}},
+      React.createElement('div',{style:{textAlign:'center',marginBottom:'3rem'}},
+        React.createElement('h2',{style:{color:'#a78bfa',marginBottom:'0.5rem'}},'Clinical Research Foundation'),
+        React.createElement('p',{style:{color:'#94a3b8',fontSize:'1.1rem'}},'Early research at Loyola University and CTCA establishing tumor immunology principles')
+      ),
+
+      React.createElement('div',{style:{display:'grid',gridTemplateColumns:'1fr',gap:'1.5rem'}},
+        ...[
+          {
+            title:'Resveratrol as a Modulator of Human Tumor Proliferation and Immunologic Sensitivity',
+            venue:'AACR 2010',
+            affiliation:'Loyola University Chicago / Cancer Treatment Centers of America',
+            link:'https://www.researchgate.net/publication/273655638',
+            abstract:'Investigated natural polyphenol resveratrol\'s effect on tumor cell proliferation and immune system activation. Results demonstrated multi-pathway mechanism for cancer cell growth inhibition.'
+          },
+          {
+            title:'EGCG as a Modulator of Tumor Cell Survival Signaling',
+            venue:'AACR 2010',
+            affiliation:'Loyola University Chicago / Cancer Treatment Centers of America',
+            link:'https://aacrjournals.org/cancerres/article/70/8_Supplement/5610/566382/',
+            abstract:'Studied green tea catechin EGCG\'s impact on cancer cell signaling pathways. Found significant inhibition of anti-apoptotic mechanisms in multiple tumor types.'
+          }
+        ].map((paper,idx)=>
+          React.createElement('div',{key:idx,className:'animate-slide',style:{background:'rgba(139,92,246,0.05)',border:'1px solid rgba(139,92,246,0.15)',borderRadius:12,padding:'1.75rem',cursor:'pointer',transition:'all 0.3s'},
+            onClick:()=>setExpandedResearch(expandedResearch===idx?null:idx)
+          },
+            React.createElement('div',{style:{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:'0.5rem'}},
+              React.createElement('div',{style:{flex:1}},
+                React.createElement('h3',{style:{color:'#c4b5fd',marginBottom:'0.25rem',fontSize:'1.1rem'}},paper.title),
+                React.createElement('div',{style:{fontSize:'0.85rem',color:'#a78bfa',fontWeight:600,marginBottom:'0.25rem'}},'📍 '+paper.affiliation),
+                React.createElement('div',{style:{fontSize:'0.85rem',color:'#94a3b8'}},'🎓 '+paper.venue)
+              ),
+              React.createElement('span',{style:{color:'#a78bfa',fontSize:'1rem',transform:expandedResearch===idx?'rotate(180deg)':'none',transition:'transform 0.3s'}},'▼')
+            ),
+            expandedResearch===idx&&React.createElement('div',{style:{marginTop:'1rem',paddingTop:'1rem',borderTop:'1px solid rgba(139,92,246,0.2)'}},
+              React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.7,fontSize:'0.95rem',marginBottom:'0.75rem'}},paper.abstract),
+              React.createElement('a',{href:paper.link,target:'_blank',rel:'noopener noreferrer',style:{display:'inline-flex',alignItems:'center',gap:'0.5rem',color:'#a78bfa',fontWeight:600,textDecoration:'underline',fontSize:'0.9rem'}},'Read Full Paper →')
+            ),
+            React.createElement('div',{style:{fontSize:'0.8rem',color:'#64748b',marginTop:'0.75rem'}},'Natural compounds as cancer therapeutics foundation')
+          )
+        )
+      ),
+
+      React.createElement('div',{style:{marginTop:'3rem',background:'rgba(139,92,246,0.08)',border:'1px solid rgba(139,92,246,0.2)',borderRadius:12,padding:'2rem',textAlign:'center'}},
+        React.createElement('p',{style:{color:'#c4b5fd',lineHeight:1.8,fontSize:'1rem'}},
+          'This early research exploring natural compounds\' anti-cancer mechanisms directly informed my current work on bioavailability optimization. The challenge wasn\'t whether natural products work—it\'s how to get them into the bloodstream effectively. That\'s what my patents solve.'
+        )
+      )
+    )
+  );
+
+  // PATENTS
+  const Patents=()=>React.createElement('section',{id:'patents',style:{background:'linear-gradient(180deg,#06090f 0%,#0a0e1a 100%)'}},
+    React.createElement('div',{style:{maxWidth:1100,margin:'0 auto'}},
+      React.createElement('div',{style:{textAlign:'center',marginBottom:'3rem'}},
+        React.createElement('h2',{style:{color:'#f59e0b',marginBottom:'0.5rem'}},'Patent Portfolio'),
+        React.createElement('p',{style:{color:'#94a3b8',fontSize:'1.1rem'}},'Provisional patents leveraging AI to accelerate natural product drug discovery')
+      ),
+
+      React.createElement('div',{style:{display:'grid',gridTemplateColumns:'1fr',gap:'2rem'}},
+        ...[
+          {
+            num:'1',
+            title:'L-THP Hybrid Molecule Platform',
+            subtitle:'Novel Combinations for Pain & Anxiety',
+            color:'#f59e0b',
+            accentBg:'rgba(245,158,11,0.08)',
+            accentBorder:'rgba(245,158,11,0.2)',
+            highlights:[
+              'Combines L-tetrahydropalmatine (natural isoquinoline alkaloid)',
+              'Hybrid with CBD, CBG, CBN, phenylalanine ethylamide (PEA)',
+              'Modulates terpene ratios for enhanced bioactivity',
+              'Prodrug design for improved oral bioavailability'
+            ],
+            aiAdvantage:'AI analysis identified that L-THP\'s pain/anxiety efficacy + cannabis cannabinoids have complementary mechanisms. Traditional drug development would test combinations randomly. AI enabled rapid screening of 1000+ potential hybrid ratios.',
+            clinical:'Non-addictive alternatives to opioid pain management. Anxiety support without dependency risk.',
+            ip:'Composition of matter, method of preparation, method of administration'
+          },
+          {
+            num:'2',
+            title:'DHCB Prodrug Platform',
+            subtitle:'Bioavailability Enhancement for Corydalis yanhusuo',
+            color:'#8b5cf6',
+            accentBg:'rgba(139,92,246,0.08)',
+            accentBorder:'rgba(139,92,246,0.2)',
+            highlights:[
+              'Active compound: Dehydrocorybulbine (DHCB) from Corydalis yanhusuo',
+              'Traditional Chinese medicine use: 1000+ years',
+              'Natural challenge: ~5% oral bioavailability',
+              'Solution: Prodrug conjugates enhance absorption 5-10x'
+            ],
+            aiAdvantage:'AI analyzed 500+ natural compounds with known pharmacology but poor absorption. DHCB emerged as ideal candidate. Rather than redesigning molecules from scratch, AI identified a delivery problem solvable with smart chemistry.',
+            clinical:'Pain management, mood support, neuroprotection. Unlocks efficacy that was dormant due to absorption limitations.',
+            ip:'Prodrug conjugate structures, manufacturing process, formulation patents'
+          }
+        ].map((patent,idx)=>
+          React.createElement('div',{key:idx,className:'animate-slide',style:{background:patent.accentBg,border:`2px solid ${patent.accentBorder}`,borderRadius:16,padding:'2rem',transition:'all 0.3s',cursor:'pointer'},
+            onClick:()=>setExpandedPatent(expandedPatent===idx?null:idx)
+          },
+            React.createElement('div',{style:{display:'flex',alignItems:'flex-start',gap:'1.5rem',marginBottom:'1rem'}},
+              React.createElement('div',{style:{width:50,height:50,borderRadius:10,background:`${patent.color}20`,border:`2px solid ${patent.color}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem',fontWeight:900,color:patent.color}},patent.num),
+              React.createElement('div',{flex:1},
+                React.createElement('h3',{style:{color:patent.color,marginBottom:'0.25rem'}},patent.title),
+                React.createElement('p',{style:{color:'#cbd5e1',fontSize:'0.95rem'}},patent.subtitle)
+              ),
+              React.createElement('span',{style:{color:patent.color,fontSize:'1.2rem',transform:expandedPatent===idx?'rotate(180deg)':'none',transition:'transform 0.3s',minWidth:24,textAlign:'center'}},'▼')
+            ),
+
+            React.createElement('div',{style:{background:'rgba(0,0,0,0.3)',borderRadius:10,padding:'1rem',marginBottom:'1rem'}},
+              React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'0.75rem'}},
+                patent.highlights.map((h,i)=>
+                  React.createElement('div',{key:i,style:{fontSize:'0.85rem',color:'#cbd5e1',lineHeight:1.5}},
+                    React.createElement('span',{style:{color:patent.color,fontWeight:700}}>✓ </span>,
+                    h
+                  )
+                )
+              )
+            ),
+
+            expandedPatent===idx&&React.createElement(React.Fragment,null,
+              React.createElement('div',{style:{background:'rgba(0,0,0,0.2)',borderRadius:10,padding:'1.5rem',marginBottom:'1rem',borderLeft:`4px solid ${patent.color}`}},
+                React.createElement('h4',{style:{color:patent.color,marginBottom:'0.5rem',fontSize:'0.95rem',fontWeight:700}},
+                  '🤖 AI Advantage'
+                ),
+                React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.7,fontSize:'0.9rem'}},patent.aiAdvantage)
+              ),
+
+              React.createElement('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem',marginBottom:'1rem'}},
+                React.createElement('div',{style:{background:'rgba(0,0,0,0.2)',borderRadius:10,padding:'1rem'}},
+                  React.createElement('h4',{style:{color:patent.color,marginBottom:'0.5rem',fontSize:'0.85rem',fontWeight:700,textTransform:'uppercase'}},
+                    '💊 Clinical Impact'
+                  ),
+                  React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.6,fontSize:'0.85rem'}},patent.clinical)
+                ),
+                React.createElement('div',{style:{background:'rgba(0,0,0,0.2)',borderRadius:10,padding:'1rem'}},
+                  React.createElement('h4',{style:{color:patent.color,marginBottom:'0.5rem',fontSize:'0.85rem',fontWeight:700,textTransform:'uppercase'}},
+                    '📋 IP Coverage'
+                  ),
+                  React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.6,fontSize:'0.85rem'}},patent.ip)
+                )
+              )
+            )
+          )
+        )
+      ),
+
+      React.createElement('div',{style:{marginTop:'3rem',background:'linear-gradient(135deg,rgba(245,158,11,0.08),rgba(139,92,246,0.08))',border:'1px solid rgba(255,255,255,0.06)',borderRadius:14,padding:'2rem',textAlign:'center'}},
+        React.createElement('h3',{style:{color:'#fbbf24',marginBottom:'0.75rem',fontSize:'1.2rem'}},'🔬 The AI Advantage in Drug Discovery'),
+        React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.8,fontSize:'0.95rem'}},
+          'Traditional drug discovery: Identify targets → Synthesize 1000s of molecules → Test → Iterate (10-15 years, $2.6B).\n\nOur approach: Analyze natural products with known activity → Use AI to identify delivery/absorption barriers → Design targeted prodrug solutions → Patent novel compositions (months, not decades).'
+        )
+      )
+    )
+  );
+
+  // VENTURES
+  const Ventures=()=>React.createElement('section',{id:'ventures',style:{background:'linear-gradient(180deg,#0a0e1a 0%,#0d1225 100%)'}},
+    React.createElement('div',{style:{maxWidth:900,margin:'0 auto'}},
+      React.createElement('div',{style:{textAlign:'center',marginBottom:'3rem'}},
+        React.createElement('h2',{style:{color:'#10b981',marginBottom:'0.5rem'}},'Ventures'),
+        React.createElement('p',{style:{color:'#94a3b8',fontSize:'1.1rem'}},'Building direct-to-consumer health and lifestyle brands')
+      ),
+
+      React.createElement('div',{style:{background:'rgba(16,185,129,0.08)',border:'1px solid rgba(16,185,129,0.2)',borderRadius:14,padding:'2rem',marginBottom:'1.5rem'}},
+        React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'1.5rem',marginBottom:'1.5rem'}},
+          React.createElement('span',{style:{fontSize:'2.5rem'}},'🌿'),
+          React.createElement('div',null,
+            React.createElement('h3',{style:{color:'#10b981',marginBottom:'0.25rem'}},'Profacio Wellness'),
+            React.createElement('p',{style:{color:'#cbd5e1'}},
+              'Direct-to-consumer wellness brand bringing optimized natural compounds to health-conscious consumers'
+            )
+          )
+        ),
+
+        React.createElement('div',{style:{background:'rgba(0,0,0,0.2)',borderRadius:10,padding:'1.5rem',marginBottom:'1rem'}},
+          React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.7,marginBottom:'1rem'}},
+            'Profacio applies proprietary bioavailability research to create consumer products. Built on years of clinical investigation and patent innovations, Profacio bridges the gap between natural wellness and pharmaceutical efficacy.'
+          ),
+          React.createElement('div',{style:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem',fontSize:'0.9rem'}},
+            React.createElement('div',null,
+              React.createElement('div',{style:{color:'#10b981',fontWeight:700,marginBottom:'0.25rem'}},
+                '🌐 Website'
+              ),
+              React.createElement('a',{href:'https://profacio.com',target:'_blank',rel:'noopener noreferrer',style:{color:'#6ee7b7'}},
+                'profacio.com'
+              )
+            ),
+            React.createElement('div',null,
+              React.createElement('div',{style:{color:'#10b981',fontWeight:700,marginBottom:'0.25rem'}},
+                '📱 Social'
+              ),
+              React.createElement('div',{style:{color:'#cbd5e1'}},
+                '@profaciowellness (Instagram, TikTok)'
+              )
+            )
+          )
+        )
+      )
+    )
+  );
+
+  // STARENSTUDIO
+  const StarenStudio=()=>React.createElement('section',{id:'starenstudio',style:{background:'linear-gradient(180deg,#0d1225 0%,#06090f 100%)'}},
+    React.createElement('div',{style:{maxWidth:900,margin:'0 auto'}},
+      React.createElement('div',{style:{textAlign:'center',marginBottom:'3rem'}},
+        React.createElement('h2',{style:{color:'#ec4899',marginBottom:'0.5rem'}},'StarenStudio'),
+        React.createElement('p',{style:{color:'#94a3b8',fontSize:'1.1rem'}},'3D printing and custom design studio')
+      ),
+
+      React.createElement('div',{style:{background:'rgba(236,72,153,0.08)',border:'1px solid rgba(236,72,153,0.2)',borderRadius:14,padding:'2rem'}},
+        React.createElement('div',{style:{display:'flex',alignItems:'center',gap:'1.5rem',marginBottom:'1.5rem'}},
+          React.createElement('span',{style:{fontSize:'2.5rem'}},'🖨️'),
+          React.createElement('div',null,
+            React.createElement('h3',{style:{color:'#ec4899',marginBottom:'0.25rem'}},'3D Printing & Design'),
+            React.createElement('p',{style:{color:'#cbd5e1'}},
+              'Custom-designed physical products created with precision 3D printing technology'
+            )
+          )
+        ),
+
+        React.createElement('div',{style:{background:'rgba(0,0,0,0.2)',borderRadius:10,padding:'1.5rem'}},
+          React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.7,marginBottom:'1rem'}},
+            'StarenStudio combines computational design with modern manufacturing. From prototypes to limited editions, each piece is crafted with attention to detail and innovation.'
+          ),
+          React.createElement('a',{href:'https://etsy.com/shop/StarenStudio',target:'_blank',rel:'noopener noreferrer',style:{display:'inline-flex',alignItems:'center',gap:'0.5rem',color:'#f472b6',fontWeight:600,fontSize:'0.95rem',padding:'0.75rem 1.25rem',background:'rgba(236,72,153,0.1)',border:'1px solid rgba(236,72,153,0.3)',borderRadius:10}},
+            '🛍️ Visit StarenStudio on Etsy'
+          )
+        )
+      )
+    )
+  );
+
+  // WRITING
+  const Writing=()=>React.createElement('section',{id:'writing',style:{background:'linear-gradient(180deg,#06090f 0%,#0a0e1a 100%)'}},
+    React.createElement('div',{style:{maxWidth:900,margin:'0 auto'}},
+      React.createElement('div',{style:{textAlign:'center',marginBottom:'3rem'}},
+        React.createElement('h2',{style:{color:'#3b82f6',marginBottom:'0.5rem'}},'Writing & Insights'),
+        React.createElement('p',{style:{color:'#94a3b8',fontSize:'1.1rem'}},'Thoughts on AI, drug discovery, entrepreneurship, and bioavailability')
+      ),
+
+      React.createElement('div',{style:{background:'rgba(59,130,246,0.08)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:14,padding:'2rem',textAlign:'center'}},
+        React.createElement('p',{style:{color:'#cbd5e1',lineHeight:1.7,marginBottom:'1.5rem'}},
+          'I write regularly on Medium about AI in drug discovery, bioavailability challenges, natural product optimization, and entrepreneurial lessons. Topics range from computational chemistry to go-to-market strategy.'
+        ),
+        React.createElement('a',{href:'https://medium.com/@anthony.staren',target:'_blank',rel:'noopener noreferrer',style:{display:'inline-flex',alignItems:'center',gap:'0.5rem',color:'#60a5fa',fontWeight:600,fontSize:'1rem',padding:'0.85rem 1.75rem',background:'linear-gradient(135deg,rgba(59,130,246,0.15),rgba(59,130,246,0.08))',border:'1px solid rgba(59,130,246,0.3)',borderRadius:10,transition:'all 0.3s'},
+          onMouseOver:e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(59,130,246,0.25),rgba(59,130,246,0.15))'},
+          onMouseOut:e=>{e.currentTarget.style.background='linear-gradient(135deg,rgba(59,130,246,0.15),rgba(59,130,246,0.08))'}
+        },
+          '📖 Read on Medium',
+          React.createElement('span',null,'→')
+        )
+      )
+    )
+  );
+
+  // CHATBOT
+  const ChatBot=()=>React.createElement('div',{style:{position:'fixed',bottom:'2rem',right:'2rem',zIndex:1000,fontFamily:'Inter'}},
+    React.createElement('button',{
+      onClick:()=>setChatOpen(!chatOpen),
+      style:{
+        width:60,height:60,borderRadius:'50%',background:chatOpen?'#0d1225':'linear-gradient(135deg,#f59e0b,#f59e0b)',
+        border:'none',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem',
+        boxShadow:chatOpen?'none':'0 4px 20px rgba(245,158,11,0.3)',
+        transition:'all 0.3s'
+      },
+      title:'Chat with TonyBot'
+    },chatOpen?'✕':'💬'),
+
+    chatOpen&&React.createElement('div',{style:{position:'absolute',bottom:'5rem',right:0,width:380,maxHeight:'500px',background:'#0d1225',border:'1px solid rgba(255,255,255,0.06)',borderRadius:14,boxShadow:'0 10px 40px rgba(0,0,0,0.5)',display:'flex',flexDirection:'column',overflow:'hidden'}},
+      // Header
+      React.createElement('div',{style:{padding:'1rem',background:'linear-gradient(135deg,rgba(245,158,11,0.1),rgba(139,92,246,0.1))',borderBottom:'1px solid rgba(255,255,255,0.06)'}},
+        React.createElement('h3',{style:{color:'#f59e0b',fontSize:'0.95rem',fontWeight:700,margin:0}},'TonyBot 🤖'),
+        React.createElement('p',{style:{color:'#64748b',fontSize:'0.75rem',margin:'0.25rem 0 0'}},
+          'Ask me about Anthony\'s work'
+        )
+      ),
+
+      // Messages
+      React.createElement('div',{style:{flex:1,overflowY:'auto',padding:'1rem',display:'flex',flexDirection:'column',gap:'0.75rem'}},
+        messages.length===0?
+          React.createElement('div',{style:{textAlign:'center',color:'#64748b',fontSize:'0.85rem',lineHeight:1.6}},
+            React.createElement('p',null,'👋 Hi! I\'m TonyBot.'),
+            React.createElement('p',null,'Ask me about patents, research, AI, or ventures.')
+          ):
+          messages.map((msg,i)=>
+            React.createElement('div',{key:i,style:{display:'flex',justifyContent:msg.type==='user'?'flex-end':'flex-start'}},
+              React.createElement('div',{style:{maxWidth:'80%',padding:'0.75rem 1rem',borderRadius:msg.type==='user'?12:12,background:msg.type==='user'?'rgba(59,130,246,0.2)':'rgba(255,255,255,0.05)',color:'#e0e4ef',fontSize:'0.85rem',lineHeight:1.5}},
+                msg.text
+              )
+            )
+          )
+      ),
+
+      // Suggestions (if no messages)
+      messages.length===0&&React.createElement('div',{style:{padding:'0.75rem',display:'flex',flexDirection:'column',gap:'0.5rem',borderTop:'1px solid rgba(255,255,255,0.06)',background:'rgba(0,0,0,0.2)'}},
+        suggestionChips.map(chip=>
+          React.createElement('button',{
+            key:chip,
+            onClick:()=>{setChatInput(chip);setTimeout(()=>handleChatSubmit({preventDefault:()=>{}}),0)},
+            style:{textAlign:'left',padding:'0.6rem 0.85rem',fontSize:'0.8rem',background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.2)',color:'#fbbf24',borderRadius:8,cursor:'pointer',transition:'all 0.2s'}
+          },chip)
+        )
+      ),
+
+      // Input
+      React.createElement('form',{onSubmit:handleChatSubmit,style:{padding:'0.75rem',borderTop:'1px solid rgba(255,255,255,0.06)',display:'flex',gap:'0.5rem'}},
+        React.createElement('input',{
+          value:chatInput,
+          onChange:e=>setChatInput(e.target.value),
+          placeholder:'Ask something...',
+          style:{flex:1,padding:'0.6rem 0.85rem',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:8,color:'#e0e4ef',fontSize:'0.85rem'}
+        }),
+        React.createElement('button',{
+          type:'submit',
+          style:{padding:'0.6rem 0.85rem',background:'rgba(245,158,11,0.15)',border:'1px solid rgba(245,158,11,0.3)',color:'#fbbf24',borderRadius:8,cursor:'pointer',fontSize:'0.85rem',fontWeight:600}
+        },'→')
+      )
+    )
+  );
+
+  // FOOTER
+  const Footer=()=>React.createElement('footer',{style:{background:'rgba(0,0,0,0.5)',borderTop:'1px solid rgba(255,255,255,0.04)',padding:'3rem 2rem',marginTop:'3rem'}},
+    React.createElement('div',{style:{maxWidth:1200,margin:'0 auto'}},
+      React.createElement('div',{style:{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:'2rem',marginBottom:'2rem'}},
+        React.createElement('div',null,
+          React.createElement('h3',{style:{color:'#f1f5f9',marginBottom:'1rem',fontSize:'1rem'}},
+            'Anthony Staren'
+          ),
+          React.createElement('p',{style:{color:'#94a3b8',fontSize:'0.9rem',lineHeight:1.8}},
+            'AI-driven drug discovery researcher and entrepreneur exploring the future of natural product therapeutics and bioavailability innovation.'
+          )
+        ),
+
+        React.createElement('div',null,
+          React.createElement('h4',{style:{color:'#cbd5e1',marginBottom:'1rem',fontSize:'0.85rem',fontWeight:700,textTransform:'uppercase'}},
+            'Connect'
+          ),
+          React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:'0.6rem'}},
+            ...[
+              {label:'LinkedIn',url:'https://linkedin.com/in/anthonystaren'},
+              {label:'Medium',url:'https://medium.com/@anthony.staren'},
+              {label:'Instagram',url:'https://instagram.com/aztonystark'},
+              {label:'Etsy Shop',url:'https://etsy.com/shop/StarenStudio'}
+            ].map(link=>
+              React.createElement('a',{key:link.label,href:link.url,target:'_blank',rel:'noopener noreferrer',style:{color:'#60a5fa',fontSize:'0.9rem',transition:'color 0.2s'}},
+                link.label
+              )
+            )
+          )
+        ),
+
+        React.createElement('div',null,
+          React.createElement('h4',{style:{color:'#cbd5e1',marginBottom:'1rem',fontSize:'0.85rem',fontWeight:700,textTransform:'uppercase'}},
+            'Projects'
+          ),
+          React.createElement('div',{style:{display:'flex',flexDirection:'column',gap:'0.6rem'}},
+            ...[
+              {label:'Profacio Wellness',url:'https://profacio.com'},
+              {label:'StarenStudio',url:'https://etsy.com/shop/StarenStudio'}
+            ].map(link=>
+              React.createElement('a',{key:link.label,href:link.url,target:'_blank',rel:'noopener noreferrer',style:{color:'#60a5fa',fontSize:'0.9rem',transition:'color 0.2s'}},
+                link.label
+              )
+            )
+          )
+        )
+      ),
+
+      React.createElement('div',{style:{borderTop:'1px solid rgba(255,255,255,0.06)',paddingTop:'1.5rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'1rem'}},
+        React.createElement('div',{style:{fontSize:'0.85rem',color:'#64748b'}},
+          '© 2026 Anthony Staren. All rights reserved.'
+        ),
+        React.createElement('div',{style:{fontSize:'0.85rem',color:'#64748b'}},
+          '📍 Tempe, Arizona'
+        )
+      )
+    )
+  );
+
+  // MAIN RENDER
+  return React.createElement('div',{style:{background:'#06090f',color:'#e0e4ef'}},
+    // Inject structured data
+    React.createElement('script',{type:'application/ld+json',dangerouslySetInnerHTML:{__html:JSON.stringify(schemaData)}}),
+
+    // Navbar
+    React.createElement('nav',{style:{position:'sticky',top:0,zIndex:100,background:'rgba(6,9,15,0.8)',backdropFilter:'blur(10px)',borderBottom:'1px solid rgba(255,255,255,0.04)',padding:'1rem 2rem'}},
+      React.createElement('div',{style:{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',justifyContent:'space-between'}},
+        React.createElement('div',{style:{fontSize:'1.3rem',fontWeight:900,color:'#f1f5f9',cursor:'pointer'},onClick:()=>window.scrollTo(0,0)},
+          'Tony'
+        ),
+        React.createElement('div',{style:{display:'flex',gap:'2rem',fontSize:'0.85rem'}},
+          ...[
+            {label:'Work',id:'working-on'},
+            {label:'Research',id:'research'},
+            {label:'Patents',id:'patents'},
+            {label:'Ventures',id:'ventures'}
+          ].map(nav=>
+            React.createElement('button',{
+              key:nav.id,
+              onClick:()=>{
+                const el=document.getElementById(nav.id);
+                if(el)el.scrollIntoView({behavior:'smooth'});
+              },
+              style:{background:'none',border:'none',color:'#94a3b8',cursor:'pointer',fontWeight:500,transition:'color 0.2s'},
+              onMouseOver:e=>e.target.style.color='#60a5fa',
+              onMouseOut:e=>e.target.style.color='#94a3b8'
+            },nav.label)
+          )
+        )
+      )
+    ),
+
+    // Sections
+    Hero(),
+    WorkingOn(),
+    Research(),
+    Patents(),
+    Ventures(),
+    StarenStudio(),
+    Writing(),
+    Footer(),
+
+    // Chat
+    ChatBot()
+  );
+}
+
+ReactDOM.render(React.createElement(App),document.getElementById('root'));
+</script>
+</body>
+</html>
